@@ -1,11 +1,13 @@
 package org.id.story;
 
 import org.id.story.Controller.FileComparatorController;
+import org.id.story.Controller.FileComparatorController.*;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Scanner;
+
 
 public class FileComparator {
     public static void main(String[] args) {
@@ -16,17 +18,7 @@ public class FileComparator {
         long interval = 1000;
 
         try {
-            while (true) {
-                //Code
-                System.out.println("Comparing files...");
-                if (reader.ready()) {
-                    userInput = reader.readLine();
-                    if (userInput.equalsIgnoreCase("stop")) {
-                        break;
-                    }
-                }
-                Thread.sleep(interval);
-            }
+            mainLoop(reader, interval);
         } catch (InterruptedException | IOException e) {
             e.printStackTrace();
         } finally {
@@ -35,6 +27,21 @@ public class FileComparator {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+        }
+    }
+
+    private static void mainLoop(BufferedReader reader, long interval) throws IOException, InterruptedException {
+        String userInput;
+        FileComparatorController controller = new FileComparatorController();
+        while (true) {
+            controller.startComparison();
+            if (reader.ready()) {
+                userInput = reader.readLine();
+                if (userInput.equalsIgnoreCase("stop")) {
+                    break;
+                }
+            }
+            Thread.sleep(interval);
         }
     }
 }

@@ -4,7 +4,9 @@ public class FileComparatorController {
 
     public void startComparison() {
 
+        System.out.println("Comparing files...");
 
+        
     }
 
 

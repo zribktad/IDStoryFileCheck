@@ -19,6 +19,7 @@ public class FileComparatorController {
             CsvIterator sourceIterator = new CsvIterator(sourceFilePath);
             List<CsvIDReader> endReaders = initEndReaders(endFiles);
             ProcessSource(sourceIterator, endReaders);
+            CheckEnd(endReaders);
             sourceIterator.close();
 
         } catch (IOException e) {
@@ -28,7 +29,16 @@ public class FileComparatorController {
 
     }
 
-
+    private void CheckEnd(List<CsvIDReader> endReaders) {
+        for (CsvIDReader endReader : endReaders) {
+         if(endReader.visitedAll()){
+             System.out.println("In end file"+(endReaders.indexOf(endReader) + 1) + " was processed all IDs");
+         }
+         else{
+             System.out.println("In end file"+(endReaders.indexOf(endReader) + 1) + " was not processed all IDs!");
+         }
+        }
+    }
 
     private void ProcessSource(CsvIterator sourceIterator, List<CsvIDReader> endReaders) {
 

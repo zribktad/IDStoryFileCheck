@@ -34,6 +34,16 @@ public class CsvHelper {
         return row;
     }
 
+    static String getValueFromKey(String currentLine, Map<String, Integer> columnIndexes, String key) throws RuntimeException {
+
+        String[] values = currentLine.split(",");
+        Integer index = columnIndexes.get(key);
+        if (index >= values.length) {
+            throw new RuntimeException("Number of column for key not found " + currentLine);
+        }
+        return values[index];
+
+    }
     static String getPathFromResources(String filePath) {
         return CsvHelper.class.getClassLoader().getResource(filePath).getPath();
     }

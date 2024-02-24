@@ -15,11 +15,13 @@ public class CsvIDReader {
     private final Set<Integer> uniqueIds;
     private final String filePath;
     private final Map<String, Integer> columnIndexes;
+    private final Set<Integer> visited;
     private final RandomAccessFile randomAccessFile;
 
     public CsvIDReader(String filePath) throws IOException {
         this.idToOffset = new HashMap<>();
         this.uniqueIds = new HashSet<>();
+        this.visited = new HashSet<>();
         this.filePath = filePath;
         this.randomAccessFile = new RandomAccessFile(getPathFromResources(filePath), "r");
         this.columnIndexes = getColumnIndexesFromLine(randomAccessFile.readLine());
@@ -56,20 +58,27 @@ public class CsvIDReader {
     public Long getLineById(Integer id) throws IllegalArgumentException {
 
         if (!uniqueIds.contains(id)) {
-            throw new IllegalArgumentException("ID not found: " + id + "in file: " + filePath);
+            return null;
         }
         return idToOffset.get(id);
     }
 
-    public Map<String, String> getMapLineById(Integer id) {
+    public Map<String, String> getMapRowById(Integer id) {
         try {
             Long idPosition = getLineById(id);
+            if (idPosition == null) {
+                return null;
+            }
             randomAccessFile.seek(idPosition);
             String line = randomAccessFile.readLine();
+            visited.add(id);
             return getLineInMap(line, columnIndexes);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+    public Boolean visitedAll(){
+        return visited.size() ==  idToOffset.size();
     }
 
 }

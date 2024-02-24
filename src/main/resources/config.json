@@ -1,0 +1,8 @@
+{
+  "sourceFile": "source_file.csv",
+  "endFiles": [
+    "end_file1.csv",
+    "end_file2.csv"
+  ],
+  "checkInterval": 2000
+}

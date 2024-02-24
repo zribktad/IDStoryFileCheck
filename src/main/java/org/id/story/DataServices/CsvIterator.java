@@ -47,7 +47,7 @@ public class CsvIterator implements Iterator<Map<String, String>>, AutoCloseable
 
 
     @Override
-    public void close() throws Exception {
+    public void close() throws IOException {
         reader.close();
     }
 
